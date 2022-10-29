@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using UnityEngine;
 
-public class sbClass
+public class SbClass
 {
     int id;
     string name;
@@ -13,12 +13,12 @@ public class sbClass
     float speed;
     int sklPower;
 
-    public sbClass()
+    public SbClass()
     {
         // init
     }
 
-    public sbClass(int id, string name, int score, string skillName, int atkPower, float speed, int sklPower)
+    public SbClass(int id, string name, int score, string skillName, int atkPower, float speed, int sklPower)
     {
         this.id = id;
         this.name = name;
