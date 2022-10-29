@@ -34,7 +34,7 @@ public class DirectorScript : MonoBehaviour
         synergyProcessor = new SynergyProcessor();
 
         //test
-        print(synergyProcessor.GetSynergyCondition(0)[3]);
+        print(synergyProcessor.GetSynergyCondition(0)[3]); // 1
     }
 
     // Update is called once per frame
@@ -56,5 +56,12 @@ public class DirectorScript : MonoBehaviour
         isStartGame = true;
 
         // call seonbae function
+    }
+
+    public void OnMove() // called when seonbae moved
+    {
+        // get field seonbae list
+
+        // synergy processor -> calculate synergy
     }
 }

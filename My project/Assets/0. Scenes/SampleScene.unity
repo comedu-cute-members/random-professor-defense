@@ -251,8 +251,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ace058605b33c14468eaaf3901aca4c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  seonBae: {fileID: 0}
-  professor: {fileID: 0}
+  seonBae: {fileID: 1951204701}
+  professor: {fileID: 1952908216}
   nGameLevel: 0
 --- !u!1 &882508736
 GameObject:
