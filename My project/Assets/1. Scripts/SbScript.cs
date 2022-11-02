@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-
+using UnityEngine.Tilemaps;
 
 public class SbScript : MonoBehaviour
 {
@@ -11,43 +11,52 @@ public class SbScript : MonoBehaviour
 
     DirectorScript directorScript_script;
     SbClass sbClass_script;
+    SbClass mySbClass;
 
-    string name, skillName;
-    int atk, sklPower;
+    new string name;
+    string skillName;
+    int sbId, atk, sklPower;
     float spd, score;
 
     float distance = 10;
 
+
+
     void Start()
     {
-        sbIndex = UnityEngine.Random.Range(0, 29);
-
         directorScript_script = FindObjectOfType<DirectorScript>();
-        sbClass_script = GetComponent<SbClass>();
     }
 
-    void GetClassInfo()
+    public void GetInfo(SbClass mySbClass)
     {
-        name = sbClass_script.GetName();
-        score = sbClass_script.GetScore();
-        skillName = sbClass_script.GetSkillName();
-        atk = sbClass_script.GetAtkPower();
-        spd = sbClass_script.GetSpeed();
-        sklPower = sbClass_script.GetSklPower();
+        sbId = mySbClass.GetId();
+        name = mySbClass.GetName();
+        score = mySbClass.GetScore();
+        skillName = mySbClass.GetSkillName();
+        atk = mySbClass.GetAtkPower();
+        spd = mySbClass.GetSpeed();
+        sklPower = mySbClass.GetSklPower();
 
     }
 
     void Update()
     {
-        
+
     }
 
-    // Sb Drag
+
+    // store drag point
+    private void OnMouseDown()
+    {
+        Vector3 clickPoint = Input.mousePosition;
+    }
+
+    // sb drag
     void OnMouseDrag()
     {
         Vector3 mousePosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, distance);
-        Vector3 worldObjectPosition = Camera.main.ScreenToWorldPoint(mousePosition);
-        transform.position = worldObjectPosition;
+        Vector3 pos = Camera.main.ScreenToWorldPoint(mousePosition);
+        transform.position = pos;
     }
 
 }
