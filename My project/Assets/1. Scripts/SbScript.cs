@@ -9,6 +9,7 @@ public class SbScript : MonoBehaviour
 {
     public int sbIndex;
 
+    public Tilemap tilemap;
     DirectorScript directorScript_script;
     SbClass sbClass_script;
     SbClass mySbClass;
@@ -22,13 +23,13 @@ public class SbScript : MonoBehaviour
 
     int characterPosX, characterPosY;
 
-    public Tilemap tilemap;
-
+    Animator anim;
+    GameObject coll;
 
     void Start()
     {
         directorScript_script = FindObjectOfType<DirectorScript>();
-        
+        anim = GetComponent<Animator>();
     }
 
     public void GetInfo(SbClass mySbClass)
@@ -45,29 +46,29 @@ public class SbScript : MonoBehaviour
 
     void Update()
     {
-        
+
     }
 
 
     // store drag point
     private void OnMouseUp()
     {
-        characterPosX = (int) transform.position.x;
-        characterPosY = (int) transform.position.y;
+        characterPosX = (int)transform.position.x;
+        characterPosY = (int)transform.position.y;
 
         if (characterPosX % 2 == 1) characterPosX++;
         else if (characterPosX % 2 == -1) characterPosX--;
 
-        if(characterPosX % 4 == 0)
+        if (characterPosX % 4 == 0)
         {
             if (characterPosY % 2 == 0) characterPosY++;
         }
         else
         {
             if (characterPosY % 2 == 1) characterPosY++;
-            else if(characterPosY % 2 == -1) characterPosY--;
+            else if (characterPosY % 2 == -1) characterPosY--;
         }
-        
+
         transform.position = new Vector3(characterPosX, characterPosY, 0);
 
         Vector3 pos = tilemap.LocalToCell(new Vector3Int(characterPosX, characterPosY, 0));
@@ -84,4 +85,28 @@ public class SbScript : MonoBehaviour
         transform.position = pos;
     }
 
+    // enemy is in collider
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision)
+        {
+            coll = collision.gameObject;
+
+            // start attack
+            anim.SetBool("isAttack", true);
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        coll = null;
+
+        // end attack
+
+    }
+
+    private void Attack()
+    {
+        
+    }
 }
