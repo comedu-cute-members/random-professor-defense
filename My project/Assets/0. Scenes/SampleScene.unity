@@ -282,9 +282,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ace058605b33c14468eaaf3901aca4c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  seonBae: {fileID: 0}
-  professor: {fileID: 1952908216}
-  nGameLevel: 0
+  seonbaePrefab: {fileID: 1536958384}
+  professorPrefab: {fileID: 154961633}
+  gameStage: 0
+  gameWave: 0
+  tileMap: {fileID: 1735413699}
+  x: 0
+  y: 0
 --- !u!1 &780025025
 GameObject:
   m_ObjectHideFlags: 0
@@ -2300,11 +2304,6 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
---- !u!1 &1952908216 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8558134842829159112, guid: 61330139443b9dc4ab444012f98ac1c6, type: 3}
-  m_PrefabInstance: {fileID: 8558134841422297456}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5498631881619337169
 PrefabInstance:
   m_ObjectHideFlags: 0

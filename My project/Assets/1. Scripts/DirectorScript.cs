@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class DirectorScript : MonoBehaviour
 {
@@ -10,31 +11,59 @@ public class DirectorScript : MonoBehaviour
     const int SEONBAE_NUM = 29;
 
     // prefab
-    public GameObject seonBae, professor;
+    public GameObject seonbaePrefab, professorPrefab;
 
     // game variables
-    public int nGameLevel;
+    public int gameStage;
+    public int gameWave;
     bool isStartGame;
+
+    public Tilemap tileMap;
+    int[] fieldSeonbae;
+    int[] deckSeonbae;
+
+    public int x, y;
+
+    List<SbClass> seonbaeData = new List<SbClass>();
+    List<Dictionary<string, float>> seonbaePosition = new List<Dictionary<string, float>>();
 
     SynergyProcessor synergyProcessor;
 
     // Start is called before the first frame update
     void Start()
     {
-        List<Dictionary<string, string>> seonbae_reader = CSVReader.ReadByString("seonbae");
-
         isStartGame = false;
-        nGameLevel = 1; // -> load from game data file
+        gameStage = 1; // -> load from game data file
 
         // make seonbae prefab from game data file (deck, field)
 
         // load seonbae data
+        List<Dictionary<string, string>> seonbaeReader = CSVReader.ReadByString("seonbae");
+        for (int i = 0; i < SEONBAE_NUM; i++)
+        {
+            SbClass entry = new SbClass();
+            entry.SetId(i);
+            entry.SetName(seonbaeReader[i]["name"]);
+            entry.SetScore(float.Parse(seonbaeReader[i]["score"]));
+            entry.SetSkillName(seonbaeReader[i]["skill_name"]);
+            entry.SetAtkPower(int.Parse(seonbaeReader[i]["attack"]));
+            entry.SetSpeed(float.Parse(seonbaeReader[i]["speed"]));
+            entry.SetSklPower(int.Parse(seonbaeReader[i]["skill"]));
+
+            seonbaeData.Add(entry);
+        }
+
+        // load seonbae position data
+        seonbaePosition = CSVReader.ReadByFloat("seonbaePosition");
+        for (int i=0; i < seonbaePosition.Count; i++)
+        {
+            GameObject seonbaeObj = MonoBehaviour.Instantiate(seonbaePrefab);
+            Vector3Int pos = new Vector3Int((int)seonbaePosition[i]["positionX"], (int)seonbaePosition[i]["positionY"], 0);
+            seonbaeObj.transform.position = tileMap.CellToLocal(pos);
+        }
 
         // load synergy data
         synergyProcessor = new SynergyProcessor();
-
-        //test
-        print(synergyProcessor.GetSynergyCondition(0)[3]); // 1
     }
 
     // Update is called once per frame
