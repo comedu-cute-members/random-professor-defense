@@ -20,11 +20,15 @@ public class SbScript : MonoBehaviour
 
     float distance = 10;
 
+    int characterPosX, characterPosY;
+
+    public Tilemap tilemap;
 
 
     void Start()
     {
         directorScript_script = FindObjectOfType<DirectorScript>();
+        
     }
 
     public void GetInfo(SbClass mySbClass)
@@ -41,14 +45,35 @@ public class SbScript : MonoBehaviour
 
     void Update()
     {
-
+        
     }
 
 
     // store drag point
-    private void OnMouseDown()
+    private void OnMouseUp()
     {
-        Vector3 clickPoint = Input.mousePosition;
+        characterPosX = (int) transform.position.x;
+        characterPosY = (int)transform.position.y;
+
+        if (characterPosX % 2 == 1) characterPosX++;
+        else if (characterPosX % 2 == -1) characterPosX--;
+
+        if(characterPosX % 4 == 0)
+        {
+            if (characterPosY % 2 == 0) characterPosY++;
+        }
+        else
+        {
+            if (characterPosY % 2 == 1) characterPosY++;
+        }
+        
+        transform.position = new Vector3(characterPosX, characterPosY, 0);
+
+        characterPosY -= 1;
+        Vector3 pos = tilemap.LocalToCell(new Vector3Int(characterPosX, characterPosY, 0));
+        print(pos.x);
+        print(pos.y);
+        print("=========");
     }
 
     // sb drag
