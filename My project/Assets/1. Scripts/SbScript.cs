@@ -53,7 +53,7 @@ public class SbScript : MonoBehaviour
     private void OnMouseUp()
     {
         characterPosX = (int) transform.position.x;
-        characterPosY = (int)transform.position.y;
+        characterPosY = (int) transform.position.y;
 
         if (characterPosX % 2 == 1) characterPosX++;
         else if (characterPosX % 2 == -1) characterPosX--;
@@ -65,11 +65,11 @@ public class SbScript : MonoBehaviour
         else
         {
             if (characterPosY % 2 == 1) characterPosY++;
+            else if(characterPosY % 2 == -1) characterPosY--;
         }
         
         transform.position = new Vector3(characterPosX, characterPosY, 0);
 
-        characterPosY -= 1;
         Vector3 pos = tilemap.LocalToCell(new Vector3Int(characterPosX, characterPosY, 0));
         print(pos.x);
         print(pos.y);
