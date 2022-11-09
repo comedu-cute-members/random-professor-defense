@@ -12,6 +12,7 @@ public class SbClass
     int atkPower;
     float speed;
     int sklPower;
+    int star = 1;
 
     public SbClass()
     {
@@ -64,6 +65,11 @@ public class SbClass
         return sklPower;
     }
 
+    public int GetStar()
+    {
+        return star;
+    }
+
     public void SetId(int id)
     {
         this.id = id;
@@ -97,5 +103,10 @@ public class SbClass
     public void SetSklPower(int sklPower)
     {
         this.sklPower = sklPower;
+    }
+
+    public void SetStar(int star)
+    {
+        this.star = star;
     }
 }
