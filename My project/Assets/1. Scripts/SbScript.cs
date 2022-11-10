@@ -14,22 +14,30 @@ public class SbScript : MonoBehaviour
     SbClass sbClass_script;
     SbClass mySbClass;
 
+    GameObject professor;
+
     new string name;
     string skillName;
     int sbId, atk, sklPower;
     float spd, score;
 
+    // z
     float distance = 10;
 
-    int characterPosX, characterPosY;
+    int sbPosX, sbPosY;
+    // distance from character to professor
+    float disX, disY;
+
+    Vector3 tilePos;
 
     Animator anim;
-    GameObject coll;
 
     void Start()
     {
         directorScript_script = FindObjectOfType<DirectorScript>();
         anim = GetComponent<Animator>();
+        professor = GameObject.Find("Professor");
+        Idle();
     }
 
     public void GetInfo(SbClass mySbClass)
@@ -41,39 +49,77 @@ public class SbScript : MonoBehaviour
         atk = mySbClass.GetAtkPower();
         spd = mySbClass.GetSpeed();
         sklPower = mySbClass.GetSklPower();
-
     }
 
     void Update()
     {
+        // get prof's tile position
+        Vector3 profPos = professor.transform.position;
+        int profPosX = (int)profPos.x;
+        int profPosY = (int)profPos.y;
 
-    }
+        if (profPosX % 2 == 1) profPosX++;
+        else if (profPosX % 2 == -1) profPosX--;
 
-
-    // store drag point
-    private void OnMouseUp()
-    {
-        characterPosX = (int)transform.position.x;
-        characterPosY = (int)transform.position.y;
-
-        if (characterPosX % 2 == 1) characterPosX++;
-        else if (characterPosX % 2 == -1) characterPosX--;
-
-        if (characterPosX % 4 == 0)
+        if (profPosX % 4 == 0)
         {
-            if (characterPosY % 2 == 0) characterPosY++;
+            if (profPosY % 2 == 0) profPosY++;
         }
         else
         {
-            if (characterPosY % 2 == 1) characterPosY++;
-            else if (characterPosY % 2 == -1) characterPosY--;
+            if (profPosY % 2 == 1) profPosY++;
+            else if (profPosY % 2 == -1) profPosY--;
         }
 
-        transform.position = new Vector3(characterPosX, characterPosY, 0);
+        Vector3 profTilePos = tilemap.LocalToCell(new Vector3Int(profPosX, profPosY, 0));
+        disX = (float)tilePos.x - profTilePos.x;
+        disY = (float)tilePos.y - profTilePos.y;
 
-        Vector3 pos = tilemap.LocalToCell(new Vector3Int(characterPosX, characterPosY, 0));
-        print(pos.x);
-        print(pos.y);
+        // y => +-6  x => +-6
+        if ((disX >= -6 && disX <= 6) && (disY >= -6 && disY <= 6))
+        {
+            Attack();
+        }
+        else
+        {
+            Idle();
+        }
+
+        // test
+        if (Input.GetMouseButtonUp(0))
+        {
+            print(profPosX);
+            print(profPosY);
+            print(profTilePos);
+            print("===============");
+            print(tilePos);
+        }
+    }
+
+
+    // when drag ends
+    void OnMouseUp()
+    {
+        sbPosX = (int)transform.position.x;
+        sbPosY = (int)transform.position.y;
+
+        if (sbPosX % 2 == 1) sbPosX++;
+        else if (sbPosX % 2 == -1) sbPosX--;
+
+        if (sbPosX % 4 == 0)
+        {
+            if (sbPosY % 2 == 0) sbPosY++;
+        }
+        else
+        {
+            if (sbPosY % 2 == 1) sbPosY++;
+            else if (sbPosY % 2 == -1) sbPosY--;
+        }
+
+        transform.position = new Vector3(sbPosX, sbPosY, 0);
+
+        tilePos = tilemap.LocalToCell(new Vector3Int(sbPosX, sbPosY, 0));
+        
         print("=========");
     }
 
@@ -86,27 +132,38 @@ public class SbScript : MonoBehaviour
     }
 
     // enemy is in collider
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if(collision)
-        {
-            coll = collision.gameObject;
+    //private void OnTriggerEnter2D(Collider2D collision)
+    //{
+    //    if (collision.tag == "Professor")
+    //    {
+    //        coll = collision.gameObject;
 
-            // start attack
-            anim.SetBool("isAttack", true);
-        }
+    //        // start attack
+    //        anim.SetBool("isAttack", true);
+    //        print("HI");
+    //    }
+    //}
+
+    //private void OnTriggerExit2D(Collider2D collision)
+    //{
+    //    if (collision.tag == "Professor")
+    //    {
+    //        coll = null;
+
+    //        // end attack
+    //        anim.SetBool("isAttack", false);
+    //    }
+    //}
+
+    public void Attack()
+    {
+        anim.SetBool("isAttack", true);
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
+    public void Idle()
     {
-        coll = null;
-
-        // end attack
-
+        anim.SetBool("isAttack", false);
     }
 
-    private void Attack()
-    {
-        
-    }
+
 }
