@@ -16,7 +16,7 @@ public class DirectorScript : MonoBehaviour
     // game variables
     public int gameStage;
     public int gameWave;
-    bool isStartGame;
+    bool isWaveStart;
 
     public Tilemap tileMap;
     int[] fieldSeonbae;
@@ -32,7 +32,7 @@ public class DirectorScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        isStartGame = false;
+        isWaveStart = false;
         gameStage = 1; // -> load from game data file
 
         // make seonbae prefab from game data file (deck, field)
@@ -58,8 +58,14 @@ public class DirectorScript : MonoBehaviour
         for (int i=0; i < seonbaePosition.Count; i++)
         {
             GameObject seonbaeObj = MonoBehaviour.Instantiate(seonbaePrefab);
+
             Vector3Int pos = new Vector3Int((int)seonbaePosition[i]["positionX"], (int)seonbaePosition[i]["positionY"], 0);
             seonbaeObj.transform.position = tileMap.CellToLocal(pos);
+
+            SbClass sbClass = seonbaeData[(int)seonbaePosition[i]["seonbaeId"]];
+            sbClass.SetStar((int)seonbaePosition[i]["star"]);
+            print(sbClass.GetName());
+            seonbaeObj.GetComponent<SbScript>().GetInfo(sbClass);
         }
 
         // load synergy data
@@ -69,7 +75,7 @@ public class DirectorScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!isStartGame)
+        if (!isWaveStart)
         {
             // ready state
         }
@@ -82,7 +88,7 @@ public class DirectorScript : MonoBehaviour
     public void StartGame(int gameLevel)
     {
         // game start init
-        isStartGame = true;
+        isWaveStart = true;
 
         // call seonbae function
     }
