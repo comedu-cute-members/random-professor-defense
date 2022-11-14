@@ -839,7 +839,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 457239103}
+      - m_Target: {fileID: 457239104}
         m_TargetAssemblyTypeName: SynergyButton, Assembly-CSharp
         m_MethodName: ClickCancle
         m_Mode: 1
