@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Tilemaps;
+using System.Diagnostics;
 
 public class SbScript : MonoBehaviour
 {
@@ -21,6 +22,9 @@ public class SbScript : MonoBehaviour
     int sbId, atk, sklPower;
     float spd, score;
 
+    // for drag or touch
+    float touchStartTime, touchEndTime;
+
     // z
     float distance = 10;
 
@@ -32,6 +36,7 @@ public class SbScript : MonoBehaviour
 
     Animator anim;
 
+    Stopwatch sw = new Stopwatch();
     void Start()
     {
         directorScript_script = FindObjectOfType<DirectorScript>();
@@ -121,6 +126,10 @@ public class SbScript : MonoBehaviour
         tilePos = tilemap.LocalToCell(new Vector3Int(sbPosX, sbPosY, 0));
         
         print("=========");
+
+        sw.Stop();
+        
+        // 터치와 드래그 구분
     }
 
     // sb drag
@@ -129,39 +138,21 @@ public class SbScript : MonoBehaviour
         Vector3 mousePosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, distance);
         Vector3 pos = Camera.main.ScreenToWorldPoint(mousePosition);
         transform.position = pos;
+
+        sw.Start();
     }
-
-    // enemy is in collider
-    //private void OnTriggerEnter2D(Collider2D collision)
-    //{
-    //    if (collision.tag == "Professor")
-    //    {
-    //        coll = collision.gameObject;
-
-    //        // start attack
-    //        anim.SetBool("isAttack", true);
-    //        print("HI");
-    //    }
-    //}
-
-    //private void OnTriggerExit2D(Collider2D collision)
-    //{
-    //    if (collision.tag == "Professor")
-    //    {
-    //        coll = null;
-
-    //        // end attack
-    //        anim.SetBool("isAttack", false);
-    //    }
-    //}
 
     public void Attack()
     {
+        // animation at the spd
         anim.SetBool("isAttack", true);
+
+        // attack when anim is on over
     }
 
     public void Idle()
     {
+        // animtation cancle
         anim.SetBool("isAttack", false);
     }
 
