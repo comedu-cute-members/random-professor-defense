@@ -49,20 +49,21 @@ public class ProfScript : MonoBehaviour
                 transform.position = Vector3.MoveTowards(gameObject.transform.position, target[n], speed);
             }
             if (transform.position == target[n])
-            {        
-              n++;          
+            {
+                n++;
             }
             Debug.Log(n);
-        }
 
-        if (transform.position.x > target[n].x)
-        {
-            transform.localScale = new Vector3(1,1,1);
-        }
 
-        else
-        {
-            transform.localScale = new Vector3(-1, 1, 1);
+            if (transform.position.x > target[n].x)
+            {
+                transform.localScale = new Vector3(1, 1, 1);
+            }
+
+            else
+            {
+                transform.localScale = new Vector3(-1, 1, 1);
+            }
         }
     }
 
