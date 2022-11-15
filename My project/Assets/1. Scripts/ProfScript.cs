@@ -22,13 +22,12 @@ public class ProfScript : MonoBehaviour
 
     void Start()
     {
-        len = 4;
-        Debug.Log("len = "+len);
+       
         target.Add(new Vector3(x1, y1, 0));
         target.Add(new Vector3(x2, y2, 0));
         target.Add(new Vector3(x3, y3, 0));
         target.Add(new Vector3(x4, y4, 0));
-        if (n == len)
+        if (n == 4)
         {
             GetDamage(attack);
         }
@@ -36,14 +35,14 @@ public class ProfScript : MonoBehaviour
     void Update()
     {
         Move();
-        if (hp <= 0)
+        if (n == target.Count)
         {
-
+            GetDamage(attack);
         }
     }
     void Move()            //move professor
     {
-        if (n != len)
+        if (n != target.Count)
         {
             if (transform.position != target[n])
             {
@@ -53,6 +52,17 @@ public class ProfScript : MonoBehaviour
             {        
               n++;          
             }
+            Debug.Log(n);
+        }
+
+        if (transform.position.x > target[n].x)
+        {
+            transform.localScale = new Vector3(1,1,1);
+        }
+
+        else
+        {
+            transform.localScale = new Vector3(-1, 1, 1);
         }
     }
 
