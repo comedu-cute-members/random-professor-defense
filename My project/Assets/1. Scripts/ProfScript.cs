@@ -6,17 +6,19 @@ public class ProfScript : MonoBehaviour
 {
     // Start is called before the first frame update
 
-    int hp = 5000;
-    public int attack;
     int len;
-    public float speed;     //professor's  move speed
+    float speed;     //professor's  move speed
     public int x1, y1;      //target1 x, y coordinate
     public int x2, y2;      //target2 x, y coordinate
     public int x3, y3;      //target3 x, y coordinate
     public int x4, y4;      //target4 x, y coordinate
     List<Vector3> target = new List<Vector3>();
     int n = 0;
-  
+    int profAttack;
+    int profHp;
+    float profSpeed;
+    string profName;
+   
 
 
 
@@ -27,17 +29,24 @@ public class ProfScript : MonoBehaviour
         target.Add(new Vector3(x2, y2, 0));
         target.Add(new Vector3(x3, y3, 0));
         target.Add(new Vector3(x4, y4, 0));
-        if (n == 4)
-        {
-            GetDamage(attack);
-        }
+      
+        
     }
+
+    public void GetInfo(ProfClass myProfClass)
+    {
+        profAttack = myProfClass.GetProfAttack();
+        profHp = myProfClass.GetProfHp();
+        profSpeed = myProfClass.GetProfSpeed();
+        profName = myProfClass.GetProfName();
+    }
+
     void Update()
     {
         Move();
         if (n == target.Count)
         {
-            GetDamage(attack);
+           // GetDamage(damage);
         }
     }
     void Move()            //move professor
@@ -46,7 +55,7 @@ public class ProfScript : MonoBehaviour
         {
             if (transform.position != target[n])
             {
-                transform.position = Vector3.MoveTowards(gameObject.transform.position, target[n], speed);
+                transform.position = Vector3.MoveTowards(gameObject.transform.position, target[n], profSpeed);
             }
             if (transform.position == target[n])
             {
@@ -69,12 +78,12 @@ public class ProfScript : MonoBehaviour
 
     void GetDamage(int damage)        
     {
-        if (hp != 0)
+        if (profHp != 0)
         {
-            hp -= damage;
-            Debug.Log("HP=" + hp);
+            profHp -= damage;
+            Debug.Log("HP=" + profHp);
         }
-           else
+        else
         {
             Debug.Log("±³¼ö »ç¸Á");
         }
