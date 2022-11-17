@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class ProfScript : MonoBehaviour
 {
@@ -8,45 +9,80 @@ public class ProfScript : MonoBehaviour
 
     int len;
     float speed;     //professor's  move speed
-    public int x1, y1;      //target1 x, y coordinate
-    public int x2, y2;      //target2 x, y coordinate
-    public int x3, y3;      //target3 x, y coordinate
-    public int x4, y4;      //target4 x, y coordinate
     List<Vector3> target = new List<Vector3>();
-    int n = 0;
+    int n = 1;
     int profAttack;
     int profHp;
     float profSpeed;
     string profName;
-   
+    float ypos;
+    int axis;
+    int c;
+    float a, b;
+    float A, B, M, N,b1,b2;
+    
+
 
 
 
     void Start()
     {
-       
-        target.Add(new Vector3(x1, y1, 0));
-        target.Add(new Vector3(x2, y2, 0));
-        target.Add(new Vector3(x3, y3, 0));
-        target.Add(new Vector3(x4, y4, 0));
-      
-        
+        Debug.Log("hello");
+
+        //target.Add(new Vector3(8, 7, 0));
+        //target.Add(new Vector3(8, 7, 0));
+        //target.Add(new Vector3(8, 7, 0));
+        //target.Add(new Vector3(8, 7, 0));
+        //target.Add(new Vector3(8, 7, 0));
+        //target.Add(new Vector3(2, 0, 0));
+
+
+
+        //c = (int)target[5].y > (int)target[0].y ? (int)target[5].y : (int)target[0].y;
+        //c += 4;
+        //A = (float)target[5].x;
+        //B = (float)target[5].y;
+        //M = (float)target[0].x;
+        //N = (float)target[0].y;
+        //b1 = (A * (float)Math.Sqrt((double)N - c) - M *(float) Math.Sqrt((double)B - (double)c)) / ((float)Math.Sqrt((double)N - (double)c) - (float)Math.Sqrt((double)B - (double)c));
+        //b2 = (A * (float)Math.Sqrt((double)N - c) + M * (float)Math.Sqrt((double)B - (double)c)) / ((float)Math.Sqrt((double)N - (double)c) + (float)Math.Sqrt((double)B - (double)c));
+        //if((b1-M)*(b1-A)<0)
+        //{
+        //    b = b1;
+        //}
+        //else
+        //{
+        //    b = b2;
+        //}
+        //a = (N - c) / ((M - b) * (M - b));
+        //Debug.Log("hello");
+        //Debug.Log("a="+a);
+        //Debug.Log("b=" + b);
+
+
+
+
+
+
+
     }
 
-    public void GetInfo(ProfClass myProfClass)
+    public void GetInfo(ProfClass myProfClass, List<Vector3> route)
     {
         profAttack = myProfClass.GetProfAttack();
         profHp = myProfClass.GetProfHp();
         profSpeed = myProfClass.GetProfSpeed();
         profName = myProfClass.GetProfName();
+
+        target = route;
     }
 
     void Update()
     {
-        Move();
-        if (n == target.Count)
+        Debug.Log("hello");
+
         {
-           // GetDamage(damage);
+            // GetDamage(damage);
         }
     }
     void Move()            //move professor
@@ -76,8 +112,11 @@ public class ProfScript : MonoBehaviour
         }
     }
 
-    void GetDamage(int damage)        
+
+  
+    public  void GetDamage(int damage)        
     {
+        n = 1;
         if (profHp != 0)
         {
             profHp -= damage;
