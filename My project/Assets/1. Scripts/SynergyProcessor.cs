@@ -1,8 +1,6 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 
 public class SynergyProcessor
 {
@@ -26,9 +24,9 @@ public class SynergyProcessor
         {
             synergyNames[i] = synergy_reader[i]["synergy"]; // save synergy names
             string sSynergy = synergy_reader[i]["key"];
-            List<int> nArraySynergy = sSynergy.Split(',').Select(Int32.Parse).ToList();
+            List<int> synergyKeyArray = sSynergy.Split(',').Select(Int32.Parse).ToList();
 
-            synergyConditions.Add(nArraySynergy);
+            synergyConditions.Add(synergyKeyArray); // save synergy keys
         }
     }
 
@@ -42,10 +40,10 @@ public class SynergyProcessor
         return synergyNames[synergyId];
     }
 
-    public void CallSynergy(int synergyId, int[] fieldSeonbae)
+    public bool CallSynergy(int synergyId, int[] fieldSeonbae) // apply synergy effect & return true if synergy exists
     {
         List<int> condition = GetSynergyCondition(synergyId);
-        Dictionary<string, float> effect = synergyEffect[synergyId]; 
+        Dictionary<string, float> effect = synergyEffect[synergyId];
 
         // count satisfied condition
         int satisfyCount = 0;
@@ -94,6 +92,10 @@ public class SynergyProcessor
                     // pf velocity -
                     break;
             }
+
+            return true;
         }
+
+        return false;
     }
 }

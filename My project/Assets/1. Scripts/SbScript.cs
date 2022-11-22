@@ -9,15 +9,14 @@ using static UnityEditor.PlayerSettings;
 
 public class SbScript : MonoBehaviour
 {
-    ProfScript profScript_script;
     SbClass sbClass_script;
     SbClass mySbClass;
 
     GameObject professor;
 
     // class info
-    public int sbIndex, star;
-    new string name;
+    int sbIndex, star;
+    string sbName;
     string skillName;
     int sbId, atk, sklPower;
     float spd, score;
@@ -47,21 +46,22 @@ public class SbScript : MonoBehaviour
 
     void Start()
     {
-        profScript_script = FindObjectOfType<ProfScript>();
         anim = GetComponentInChildren<Animator>();
+
         professor = GameObject.Find("Professor");
         Idle();
 
-        if(eventSystem == null)
+        DragInit();
+    }
+
+    private void DragInit()
+    {
+        if (eventSystem == null)
         {
             eventSystem = GetComponent<EventSystem>();
         }
-        SetDragThreshold();
-    }
 
-    private void SetDragThreshold()
-    {
-        if(eventSystem != null)
+        if (eventSystem != null)
         {
             eventSystem.pixelDragThreshold = (int)(dragThresholdCm*Screen.dpi / INCHTOCM);
         }
@@ -70,7 +70,7 @@ public class SbScript : MonoBehaviour
     public void GetInfo(SbClass mySbClass)
     {
         sbId = mySbClass.GetId();
-        name = mySbClass.GetName();
+        sbName = mySbClass.GetName();
         score = mySbClass.GetScore();
         skillName = mySbClass.GetSkillName();
         atk = mySbClass.GetAtkPower();
