@@ -1,48 +1,70 @@
+using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Tilemaps;
-using System.Diagnostics;
+using static UnityEditor.PlayerSettings;
 
 public class SbScript : MonoBehaviour
 {
-    public int sbIndex;
-
-    public Tilemap tilemap;
-    DirectorScript directorScript_script;
+    ProfScript profScript_script;
     SbClass sbClass_script;
     SbClass mySbClass;
 
     GameObject professor;
 
+    // class info
+    public int sbIndex, star;
     new string name;
     string skillName;
     int sbId, atk, sklPower;
     float spd, score;
 
-    // for drag or touch
-    float touchStartTime, touchEndTime;
-
     // z
     float distance = 10;
 
+    // seonbae position
     int sbPosX, sbPosY;
+    int startPosX, startPosY;
+    int endPosX, endPosY;
+
     // distance from character to professor
     float disX, disY;
+    float difMousePosY; // difference between mousepos.y and transformpos.y
 
-    Vector3 tilePos;
+    Vector3 tilePos; // tile position
+    public Tilemap tilemap;
 
-    Animator anim;
+    Animator anim; // atk anim
 
-    Stopwatch sw = new Stopwatch();
+    // difference between drag and click
+    const float INCHTOCM = 2.54f;
+    EventSystem eventSystem = null;
+    readonly float dragThresholdCm = 0.5f;
+
+
     void Start()
     {
-        directorScript_script = FindObjectOfType<DirectorScript>();
-        anim = GetComponent<Animator>();
+        profScript_script = FindObjectOfType<ProfScript>();
+        anim = GetComponentInChildren<Animator>();
         professor = GameObject.Find("Professor");
         Idle();
+
+        if(eventSystem == null)
+        {
+            eventSystem = GetComponent<EventSystem>();
+        }
+        SetDragThreshold();
+    }
+
+    private void SetDragThreshold()
+    {
+        if(eventSystem != null)
+        {
+            eventSystem.pixelDragThreshold = (int)(dragThresholdCm*Screen.dpi / INCHTOCM);
+        }
     }
 
     public void GetInfo(SbClass mySbClass)
@@ -54,6 +76,7 @@ public class SbScript : MonoBehaviour
         atk = mySbClass.GetAtkPower();
         spd = mySbClass.GetSpeed();
         sklPower = mySbClass.GetSklPower();
+        star = mySbClass.GetStar();
     }
 
     void Update()
@@ -90,14 +113,14 @@ public class SbScript : MonoBehaviour
             Idle();
         }
 
-        // test
-        if (Input.GetMouseButtonUp(0))
+        if (Input.GetMouseButtonDown(0))
         {
-            print(profPosX);
-            print(profPosY);
-            print(profTilePos);
-            print("===============");
-            print(tilePos);
+            startPosX = sbPosX;
+            startPosY = sbPosY;
+
+            Vector3 mousePosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, distance);
+            Vector3 mouseStartPosition = Camera.main.ScreenToWorldPoint(mousePosition);
+            difMousePosY = mouseStartPosition.y - transform.position.y;
         }
     }
 
@@ -106,7 +129,7 @@ public class SbScript : MonoBehaviour
     void OnMouseUp()
     {
         sbPosX = (int)transform.position.x;
-        sbPosY = (int)transform.position.y;
+        sbPosY = (int)(transform.position.y);
 
         if (sbPosX % 2 == 1) sbPosX++;
         else if (sbPosX % 2 == -1) sbPosX--;
@@ -123,12 +146,16 @@ public class SbScript : MonoBehaviour
 
         transform.position = new Vector3(sbPosX, sbPosY, 0);
 
-        tilePos = tilemap.LocalToCell(new Vector3Int(sbPosX, sbPosY, 0));
-        
-        print("=========");
+        endPosX = sbPosX;
+        endPosY = sbPosY;
 
-        sw.Stop();
-        
+        if (endPosX == startPosX && endPosY == startPosY)
+        {
+            Click();
+        }
+
+        tilePos = tilemap.LocalToCell(new Vector3Int(sbPosX, sbPosY, 0));
+
         // 터치와 드래그 구분
     }
 
@@ -137,9 +164,7 @@ public class SbScript : MonoBehaviour
     {
         Vector3 mousePosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, distance);
         Vector3 pos = Camera.main.ScreenToWorldPoint(mousePosition);
-        transform.position = pos;
-
-        sw.Start();
+        transform.position = new Vector3(pos.x, pos.y - difMousePosY, pos.z);
     }
 
     public void Attack()
@@ -156,5 +181,23 @@ public class SbScript : MonoBehaviour
         anim.SetBool("isAttack", false);
     }
 
+    public void Click()
+    {
+        anim.SetBool("isClick", true);
+    }
 
+    public void Cancle()
+    {
+        anim.SetBool("isClick", false);
+    }
+
+    public void CantMove()
+    {
+        gameObject.GetComponent<BoxCollider2D>().enabled = false;
+    }
+
+    public void CanMove()
+    {
+        gameObject.GetComponent<BoxCollider2D>().enabled = true;
+    }
 }
