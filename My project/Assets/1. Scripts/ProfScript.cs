@@ -9,58 +9,35 @@ public class ProfScript : MonoBehaviour
 
     int len;
     float speed;     //professor's  move speed
-    List<Vector3> target = new List<Vector3>();
-    int n = 1;
-    int profAttack;
-    int profHp;
-    float profSpeed;
+    public List<Vector3> target = new List<Vector3>();
+    public int n = 1;
+    public int profAttack = 500;
+    public int profHp=100;
+    float profSpeed = 10f;
     string profName;
-    float ypos;
-    int axis;
-    int c;
-    float a, b;
-    float A, B, M, N,b1,b2;
-    
+    int rotSpeed;
+    Rigidbody2D rb;
+    GameObject profS;
+    public int i = 0;
+ 
+
+
 
 
 
 
     void Start()
     {
-        Debug.Log("hello");
-
-        //target.Add(new Vector3(8, 7, 0));
-        //target.Add(new Vector3(8, 7, 0));
-        //target.Add(new Vector3(8, 7, 0));
-        //target.Add(new Vector3(8, 7, 0));
-        //target.Add(new Vector3(8, 7, 0));
-        //target.Add(new Vector3(2, 0, 0));
-
-
-
-        //c = (int)target[5].y > (int)target[0].y ? (int)target[5].y : (int)target[0].y;
-        //c += 4;
-        //A = (float)target[5].x;
-        //B = (float)target[5].y;
-        //M = (float)target[0].x;
-        //N = (float)target[0].y;
-        //b1 = (A * (float)Math.Sqrt((double)N - c) - M *(float) Math.Sqrt((double)B - (double)c)) / ((float)Math.Sqrt((double)N - (double)c) - (float)Math.Sqrt((double)B - (double)c));
-        //b2 = (A * (float)Math.Sqrt((double)N - c) + M * (float)Math.Sqrt((double)B - (double)c)) / ((float)Math.Sqrt((double)N - (double)c) + (float)Math.Sqrt((double)B - (double)c));
-        //if((b1-M)*(b1-A)<0)
-        //{
-        //    b = b1;
-        //}
-        //else
-        //{
-        //    b = b2;
-        //}
-        //a = (N - c) / ((M - b) * (M - b));
-        //Debug.Log("hello");
-        //Debug.Log("a="+a);
-        //Debug.Log("b=" + b);
-
-
-
+        rb = GetComponent<Rigidbody2D>();
+        rb.bodyType = RigidbodyType2D.Static;
+        rotSpeed = 0;
+        profS = GameObject.Find("ProfessorSprite");
+        target.Add(new Vector3(-8, 7, 0));  //Start position
+        target.Add(new Vector3(0, 3, 0));
+        target.Add(new Vector3(5, 0, 0));
+        target.Add(new Vector3(4, -1, 0));
+        target.Add(new Vector3(2, -2, 0));       //destination
+        target.Add(new Vector3(0, -1, 0));     //senegi position
 
 
 
@@ -79,52 +56,66 @@ public class ProfScript : MonoBehaviour
 
     void Update()
     {
-        Debug.Log("hello");
-
+        if (n != target.Count-1)
         {
-            // GetDamage(damage);
+            Move();
         }
-    }
-    void Move()            //move professor
-    {
-        if (n != target.Count)
+
+        if (Math.Abs(transform.position.x) > 8)
         {
+            rb.bodyType = RigidbodyType2D.Static;
+            rotSpeed = 0;
+            profS.transform.localEulerAngles = new Vector3(0, 0, 0);
+            n = 0;
+            i = 0;
+        }
+        profS.transform.Rotate(0, 0, this.rotSpeed*Time.deltaTime);
+        if(profHp<0)
+        {
+            
+        }
+     
+    }
+    void Move()            //move professor to destination
+    {
+   
             if (transform.position != target[n])
             {
-                transform.position = Vector3.MoveTowards(gameObject.transform.position, target[n], profSpeed);
+                transform.position = Vector3.MoveTowards(gameObject.transform.position, target[n], profSpeed*Time.deltaTime);
             }
-            if (transform.position == target[n])
-            {
-                n++;
-            }
-            Debug.Log(n);
+             if (transform.position == target[n])
+             {
+                 n++;
+             }
+        Debug.Log(n);
+        if (transform.position.x > target[n].x)
+        {
+            transform.localScale = new Vector3(1, 1, 1);
+        }
 
-
-            if (transform.position.x > target[n].x)
-            {
-                transform.localScale = new Vector3(1, 1, 1);
-            }
-
-            else
-            {
-                transform.localScale = new Vector3(-1, 1, 1);
-            }
+        else
+        {
+            transform.localScale = new Vector3(-1, 1, 1);
         }
     }
 
-
-  
-    public  void GetDamage(int damage)        
+    public void Kicked(Vector3 dir)
     {
-        n = 1;
-        if (profHp != 0)
+        if (i == 0)
         {
-            profHp -= damage;
-            Debug.Log("HP=" + profHp);
+            rb.bodyType = RigidbodyType2D.Dynamic;
+            rb.AddForce(dir);
+            if (target[0].x > target[target.Count - 1].x)
+                rotSpeed = -2000;
+            else
+                rotSpeed = 2000;
+            profHp -= 30;
         }
-        else
-        {
-            Debug.Log("±³¼ö »ç¸Á");
-        }
+        i++;
+        
+    }
+    public  void GetDamage(int damage)
+    { 
+        profHp -= damage;      
     }
 }
