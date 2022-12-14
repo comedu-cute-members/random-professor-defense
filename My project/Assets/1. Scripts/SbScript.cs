@@ -38,10 +38,6 @@ public class SbScript : MonoBehaviour
 
     Animator anim; // atk anim
 
-    // difference between drag and click
-    const float INCHTOCM = 2.54f;
-    EventSystem eventSystem = null;
-    readonly float dragThresholdCm = 0.5f;
 
 
     void Start()
@@ -51,20 +47,6 @@ public class SbScript : MonoBehaviour
         professor = GameObject.Find("Professor");
         Idle();
 
-        DragInit();
-    }
-
-    private void DragInit()
-    {
-        if (eventSystem == null)
-        {
-            eventSystem = GetComponent<EventSystem>();
-        }
-
-        if (eventSystem != null)
-        {
-            eventSystem.pixelDragThreshold = (int)(dragThresholdCm*Screen.dpi / INCHTOCM);
-        }
     }
 
     public void GetInfo(SbClass mySbClass)
@@ -156,6 +138,7 @@ public class SbScript : MonoBehaviour
 
         tilePos = tilemap.LocalToCell(new Vector3Int(sbPosX, sbPosY, 0));
 
+        print(sbPosX); print(sbPosY);
         // 터치와 드래그 구분
     }
 
