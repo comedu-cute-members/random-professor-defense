@@ -13,8 +13,10 @@ public class SbScript : MonoBehaviour
 
     // class info
     int sbIndex;
+    Vector3 currentPos;
 
     public Tilemap tilemap;
+    string mouseState = "up";
 
     Animator anim; // atk anim
 
@@ -22,6 +24,7 @@ public class SbScript : MonoBehaviour
     {
         anim = GetComponentInChildren<Animator>();
 
+        currentPos = transform.position;
         Idle();
     }
 
@@ -40,14 +43,34 @@ public class SbScript : MonoBehaviour
     {
         Vector3 mousePoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10);
         transform.position = Camera.main.ScreenToWorldPoint(mousePoint);
-        print(Camera.main.ScreenToWorldPoint(mousePoint));
+        // print(Camera.main.ScreenToWorldPoint(mousePoint));
+        mouseState = "drag";
     }
 
-    public void OnMove()
+    private void OnMouseUp()
     {
-        Vector3 mousePoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10);
-        transform.position = Camera.main.ScreenToWorldPoint(mousePoint);
-        print(Camera.main.ScreenToWorldPoint(mousePoint));
+        if (mouseState == "drag")
+        {
+            int sbPosX = (int)transform.position.x;
+            int sbPosY = (int)transform.position.y;
+
+            if (sbPosX % 2 == 1) sbPosX++;
+            else if (sbPosX % 2 == -1) sbPosX--;
+
+            if (sbPosX % 4 == 0)
+            {
+                if (sbPosY % 2 == 0) sbPosY++;
+            }
+            else
+            {
+                if (sbPosY % 2 == 1) sbPosY++;
+                else if (sbPosY % 2 == -1) sbPosY--;
+            }
+
+            transform.position = new Vector3(sbPosX, sbPosY, 0);
+        }
+
+        mouseState = "up";
     }
 
     /************ anim****************/

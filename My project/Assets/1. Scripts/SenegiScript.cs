@@ -20,7 +20,7 @@ public class SenegiScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        prof = GameObject.Find("Professor");
+        // prof = GameObject.Find("Professor");
     }
 
     // Update is called once per frame
@@ -33,7 +33,6 @@ public class SenegiScript : MonoBehaviour
             if (time % 100 == 0)
             {
                 prof.GetComponent<ProfScript>().Kicked(new Vector3(x, y, 0));
-                //Debug.Log("aaaa");
                 time = 0;
             }
 

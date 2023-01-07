@@ -47,14 +47,7 @@ public class DirectorScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!isWaveStart)
-        {
-            // ready state
-        }
-        else
-        {
-            // game state
-        }
+        
     }
 
     void SeonbaeDataInit()
@@ -102,12 +95,21 @@ public class DirectorScript : MonoBehaviour
         }
     }
 
-    public void StartGame(int gameLevel)
+    public void StartGame()
     {
         // game start init
         isWaveStart = true;
 
         // call seonbae function
+        for (int i=0; i<fieldSeonbae.Count; i++)
+        {
+            fieldSeonbae[i].GetComponent<BoxCollider2D>().enabled = false;
+            fieldSeonbae[i].GetComponentInChildren<PolygonCollider2D>().enabled = true;
+        }
+
+        // professor setting
+        GameObject professorObj = MonoBehaviour.Instantiate(professorPrefab);
+        professorObj.SetActive(true);
     }
 
     public void OnMove(int realSeonbaeId, int positionY, int newY) // called when seonbae moved
