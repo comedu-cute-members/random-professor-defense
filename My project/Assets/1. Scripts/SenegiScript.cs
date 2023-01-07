@@ -21,9 +21,6 @@ public class SenegiScript : MonoBehaviour
     void Start()
     {
         prof = GameObject.Find("Professor");
-
-      
-
     }
 
     // Update is called once per frame

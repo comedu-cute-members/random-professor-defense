@@ -36,6 +36,20 @@ public class SbScript : MonoBehaviour
 
     }
 
+    private void OnMouseDrag()
+    {
+        Vector3 mousePoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10);
+        transform.position = Camera.main.ScreenToWorldPoint(mousePoint);
+        print(Camera.main.ScreenToWorldPoint(mousePoint));
+    }
+
+    public void OnMove()
+    {
+        Vector3 mousePoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10);
+        transform.position = Camera.main.ScreenToWorldPoint(mousePoint);
+        print(Camera.main.ScreenToWorldPoint(mousePoint));
+    }
+
     /************ anim****************/
     public void Attack()
     {

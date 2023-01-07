@@ -21,9 +21,8 @@ public class SbMove : MonoBehaviour
 
     private void OnMouseDrag()
     {
-        print("drag");
-        Vector3 MousePosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
-        transform.position = MousePosition;
+        //print("drag");
+        parentScript.OnMove();
     }
 
 }
