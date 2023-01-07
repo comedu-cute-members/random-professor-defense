@@ -87,7 +87,7 @@ public class DirectorScript : MonoBehaviour
             sbClass.SetStar((int)seonbaePosition[i]["star"]);
             //print(sbClass.GetName());
 
-            seonbaeObj.GetComponent<SbScript>().GetInfo(sbClass);
+            seonbaeObj.GetComponent<SbScript>().GetInfo(i, sbClass);
 
             if ((int)seonbaePosition[i]["state"] == 1) // in field
             {

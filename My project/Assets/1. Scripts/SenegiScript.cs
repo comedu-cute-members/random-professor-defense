@@ -36,7 +36,7 @@ public class SenegiScript : MonoBehaviour
             if (time % 100 == 0)
             {
                 prof.GetComponent<ProfScript>().Kicked(new Vector3(x, y, 0));
-                Debug.Log("aaaa");
+                //Debug.Log("aaaa");
                 time = 0;
             }
 
