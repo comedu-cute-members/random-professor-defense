@@ -17,6 +17,7 @@ public class SbScript : MonoBehaviour
 
     public Tilemap tilemap;
     string mouseState = "up";
+    bool samePosWithOthers = false;
 
     Animator anim; // atk anim
 
@@ -43,7 +44,6 @@ public class SbScript : MonoBehaviour
     {
         Vector3 mousePoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10);
         transform.position = Camera.main.ScreenToWorldPoint(mousePoint);
-        // print(Camera.main.ScreenToWorldPoint(mousePoint));
         mouseState = "drag";
     }
 
@@ -51,26 +51,53 @@ public class SbScript : MonoBehaviour
     {
         if (mouseState == "drag")
         {
-            int sbPosX = (int)transform.position.x;
-            int sbPosY = (int)transform.position.y;
-
-            if (sbPosX % 2 == 1) sbPosX++;
-            else if (sbPosX % 2 == -1) sbPosX--;
-
-            if (sbPosX % 4 == 0)
+            if (samePosWithOthers)
             {
-                if (sbPosY % 2 == 0) sbPosY++;
+                print("back");
+                transform.position = currentPos;
             }
             else
             {
-                if (sbPosY % 2 == 1) sbPosY++;
-                else if (sbPosY % 2 == -1) sbPosY--;
+                // move position to tile
+                int sbPosX = (int)transform.position.x;
+                int sbPosY = (int)transform.position.y;
+
+                if (sbPosX % 2 == 1) sbPosX++;
+                else if (sbPosX % 2 == -1) sbPosX--;
+
+                if (sbPosX % 4 == 0)
+                {
+                    if (sbPosY % 2 == 0) sbPosY++;
+                }
+                else
+                {
+                    if (sbPosY % 2 == 1) sbPosY++;
+                    else if (sbPosY % 2 == -1) sbPosY--;
+                }
+
+                transform.position = new Vector3(sbPosX, sbPosY, 0);
+                currentPos = transform.position;
             }
-
-            transform.position = new Vector3(sbPosX, sbPosY, 0);
         }
-
         mouseState = "up";
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "Seonbae")
+        {
+            print("same pos");
+            samePosWithOthers = true;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.tag == "Seonbae")
+        {
+            print("end trigger");
+            samePosWithOthers = false;
+        }
     }
 
     /************ anim****************/

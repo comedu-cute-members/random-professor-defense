@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 6755486222424782786}
   - component: {fileID: 5319807028747258660}
   - component: {fileID: 2434377504611101502}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Seonbae
-  m_TagString: Untagged
+  m_TagString: Seonbae
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -129,7 +129,7 @@ GameObject:
   - component: {fileID: 7656974243121575960}
   - component: {fileID: 3329210908439559852}
   - component: {fileID: 7512280265647714361}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: AttackRegion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -223,7 +223,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5385484162105579728}
   - component: {fileID: 642828238425592494}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SeonbaeSprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
