@@ -23,8 +23,6 @@ public class SbScript : MonoBehaviour
         anim = GetComponentInChildren<Animator>();
 
         Idle();
-
-        //sbChildColliderCheckScript = GetComponentInChildren<SbChildColliderCheck>();
     }
 
     public void GetInfo(int sbIndex, SbClass sbClass)
@@ -36,15 +34,6 @@ public class SbScript : MonoBehaviour
     void Update()
     {
 
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if(collision.tag == "Professor")
-        {
-            // attack
-            //print(collision.tag);
-        }
     }
 
     /************ anim****************/

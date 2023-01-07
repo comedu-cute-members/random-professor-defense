@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 2632822936461143634}
   - component: {fileID: 6755486222424782786}
   - component: {fileID: 2880582252842514638}
-  - component: {fileID: 7821494225070283513}
   m_Layer: 0
   m_Name: Seonbae
   m_TagString: Untagged
@@ -33,6 +32,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5385484162105579728}
+  - {fileID: 799922234131174545}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -48,14 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f054585c81dbcc4896312a33a4c2051, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sbPosX: 0
-  sbPosY: 0
-  startPosX: 0
-  startPosY: 0
-  endPosX: 0
-  endPosY: 0
   tilemap: {fileID: 0}
-  isUp: 1
 --- !u!95 &6755486222424782786
 Animator:
   serializedVersion: 4
@@ -97,13 +90,46 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!60 &7821494225070283513
+--- !u!1 &2099495652800344288
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 799922234131174545}
+  - component: {fileID: 7656974243121575960}
+  - component: {fileID: 3329210908439559852}
+  m_Layer: 0
+  m_Name: AttackRegion
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &799922234131174545
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2099495652800344288}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1953552643715250489}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!60 &7656974243121575960
 PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1455470820697068841}
+  m_GameObject: {fileID: 2099495652800344288}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
@@ -113,10 +139,10 @@ PolygonCollider2D:
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 7.85, y: 16.17}
+    newSize: {x: 1, y: 2}
+    adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
@@ -126,6 +152,18 @@ PolygonCollider2D:
       - {x: -6, y: 0}
       - {x: 0, y: -3}
       - {x: 6, y: 0}
+--- !u!114 &3329210908439559852
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2099495652800344288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f89c3b25ffb3a03499ebedb6b3ba646f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8134664979972821147
 GameObject:
   m_ObjectHideFlags: 0
@@ -136,6 +174,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5385484162105579728}
   - component: {fileID: 642828238425592494}
+  - component: {fileID: 5920163087362015011}
+  - component: {fileID: 2397025917153803444}
   m_Layer: 0
   m_Name: SeonbaeSprite
   m_TagString: Untagged
@@ -210,3 +250,41 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &5920163087362015011
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8134664979972821147}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1718a3aabf1a66a4b8b8e7991332531d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!61 &2397025917153803444
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8134664979972821147}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 7.85, y: 16.17}
+    newSize: {x: 1, y: 2}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 7.85, y: 16.17}
+  m_EdgeRadius: 0
