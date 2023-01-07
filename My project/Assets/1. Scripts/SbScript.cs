@@ -43,7 +43,7 @@ public class SbScript : MonoBehaviour
         if(collision.tag == "Professor")
         {
             // attack
-            print(collision.tag);
+            //print(collision.tag);
         }
     }
 
