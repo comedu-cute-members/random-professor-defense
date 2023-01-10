@@ -17,7 +17,7 @@ public class SbScript : MonoBehaviour
 
     public Tilemap tilemap;
     string mouseState = "up";
-    Vector3 distanceY;
+    Vector3 distance;
     GameObject samePosOther = null;
 
     Animator anim; // atk anim
@@ -44,13 +44,13 @@ public class SbScript : MonoBehaviour
     private void OnMouseDown()
     {
         print(sbIndex);
-        distanceY = Camera.main.ScreenToWorldPoint(Input.mousePosition) - currentPos;
+        distance = Camera.main.ScreenToWorldPoint(Input.mousePosition) - currentPos;
     }
 
     private void OnMouseDrag()
     {
         Vector3 mousePoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10);
-        transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition) - distanceY;
+        transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition) - distance;
         mouseState = "drag";
     }
 
@@ -58,13 +58,6 @@ public class SbScript : MonoBehaviour
     {
         if (mouseState == "drag")
         {
-            if (samePosOther)
-            {
-                samePosOther.transform.position = currentPos;
-                samePosOther.GetComponent<SbScript>().OnMoveByOther();
-                samePosOther = null;
-            }
-
             // move position to tile
             int sbPosX = (int)transform.position.x;
             int sbPosY = (int)transform.position.y;
@@ -83,10 +76,21 @@ public class SbScript : MonoBehaviour
             }
 
             transform.position = new Vector3(sbPosX, sbPosY, 0);
+
+            if (samePosOther != null)
+            {
+                if (samePosOther.transform.position == transform.position)
+                {
+                    samePosOther.transform.position = currentPos;
+                    samePosOther.GetComponent<SbScript>().OnMoveByOther();
+                    samePosOther = null;
+                }
+            }
+
             currentPos = transform.position;
         }
         mouseState = "up";
-        distanceY = new Vector3(0, 0, 0);
+        distance = new Vector3(0, 0, 0);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
