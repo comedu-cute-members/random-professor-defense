@@ -17,7 +17,8 @@ public class SbScript : MonoBehaviour
 
     public Tilemap tilemap;
     string mouseState = "up";
-    bool samePosWithOthers = false;
+    Vector3 distanceY;
+    GameObject samePosOther = null;
 
     Animator anim; // atk anim
 
@@ -40,10 +41,16 @@ public class SbScript : MonoBehaviour
 
     }
 
+    private void OnMouseDown()
+    {
+        print(sbIndex);
+        distanceY = Camera.main.ScreenToWorldPoint(Input.mousePosition) - currentPos;
+    }
+
     private void OnMouseDrag()
     {
         Vector3 mousePoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10);
-        transform.position = Camera.main.ScreenToWorldPoint(mousePoint);
+        transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition) - distanceY;
         mouseState = "drag";
     }
 
@@ -51,43 +58,42 @@ public class SbScript : MonoBehaviour
     {
         if (mouseState == "drag")
         {
-            if (samePosWithOthers)
+            if (samePosOther)
             {
-                print("back");
-                transform.position = currentPos;
+                samePosOther.transform.position = currentPos;
+                samePosOther.GetComponent<SbScript>().OnMoveByOther();
+                samePosOther = null;
+            }
+
+            // move position to tile
+            int sbPosX = (int)transform.position.x;
+            int sbPosY = (int)transform.position.y;
+
+            if (sbPosX % 2 == 1) sbPosX++;
+            else if (sbPosX % 2 == -1) sbPosX--;
+
+            if (sbPosX % 4 == 0)
+            {
+                if (sbPosY % 2 == 0) sbPosY++;
             }
             else
             {
-                // move position to tile
-                int sbPosX = (int)transform.position.x;
-                int sbPosY = (int)transform.position.y;
-
-                if (sbPosX % 2 == 1) sbPosX++;
-                else if (sbPosX % 2 == -1) sbPosX--;
-
-                if (sbPosX % 4 == 0)
-                {
-                    if (sbPosY % 2 == 0) sbPosY++;
-                }
-                else
-                {
-                    if (sbPosY % 2 == 1) sbPosY++;
-                    else if (sbPosY % 2 == -1) sbPosY--;
-                }
-
-                transform.position = new Vector3(sbPosX, sbPosY, 0);
-                currentPos = transform.position;
+                if (sbPosY % 2 == 1) sbPosY++;
+                else if (sbPosY % 2 == -1) sbPosY--;
             }
+
+            transform.position = new Vector3(sbPosX, sbPosY, 0);
+            currentPos = transform.position;
         }
         mouseState = "up";
+        distanceY = new Vector3(0, 0, 0);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == "Seonbae")
         {
-            print("same pos");
-            samePosWithOthers = true;
+            samePosOther = collision.gameObject;
         }
     }
 
@@ -95,9 +101,13 @@ public class SbScript : MonoBehaviour
     {
         if (collision.tag == "Seonbae")
         {
-            print("end trigger");
-            samePosWithOthers = false;
+            samePosOther = null;
         }
+    }
+
+    void OnMoveByOther()
+    {
+        currentPos = transform.position;
     }
 
     /************ anim****************/
