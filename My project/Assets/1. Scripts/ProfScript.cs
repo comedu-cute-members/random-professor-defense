@@ -87,7 +87,7 @@ public class ProfScript : MonoBehaviour
              {
                  n++;
              }
-        Debug.Log(n);
+        
         if (transform.position.x > target[n].x)
         {
             transform.localScale = new Vector3(1, 1, 1);
