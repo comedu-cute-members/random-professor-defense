@@ -16,6 +16,7 @@ public class ItemButton : MonoBehaviour
     void Start()
     {
         anim = GetComponentInChildren<Animator>();
+        synergyButton = GameObject.Find("Synergy").GetComponent<Button>();
         gameMenu_script = FindObjectOfType<GameMenu>();
     }
 

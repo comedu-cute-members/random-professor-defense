@@ -19,12 +19,6 @@ public class ProfScript : MonoBehaviour
     Rigidbody2D rb;
     GameObject profS;
     public int i = 0;
- 
-
-
-
-
-
 
     void Start()
     {
@@ -38,10 +32,6 @@ public class ProfScript : MonoBehaviour
         target.Add(new Vector3(4, -1, 0));
         target.Add(new Vector3(2, -2, 0));       //destination
         target.Add(new Vector3(0, -1, 0));     //senegi position
-
-
-
-
     }
 
     public void GetInfo(ProfClass myProfClass, List<Vector3> route)
@@ -88,6 +78,7 @@ public class ProfScript : MonoBehaviour
                  n++;
              }
         
+        //Debug.Log(n);
         if (transform.position.x > target[n].x)
         {
             transform.localScale = new Vector3(1, 1, 1);

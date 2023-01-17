@@ -24,6 +24,8 @@ public class SenegiScript : MonoBehaviour
     { 
         prof = GameObject.Find("Professor");
         this.animator = GetComponent<Animator>();
+    {
+        // prof = GameObject.Find("Professor");
     }
 
     // Update is called once per frame
@@ -37,6 +39,7 @@ public class SenegiScript : MonoBehaviour
             Hp --;
             if (time ==200)
             {
+                prof.GetComponent<ProfScript>().Kicked(new Vector3(x, y, 0));
                 time = 0;
                 prof.GetComponent<ProfScript>().Kicked(new Vector3(x, y, 0));
                 this.animator.SetTrigger("KickTrigger"); 
