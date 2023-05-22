@@ -33,6 +33,11 @@ public class SbCard : MonoBehaviour
         InstantiatePref();
     }
 
+    private void SeonbaeDataInit()
+    {
+        
+    }
+
     private void InstantiatePref()
     {
         for(int i = 0; i < 7; i++) 
